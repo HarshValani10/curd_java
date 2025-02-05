@@ -60,11 +60,10 @@ public class CategoryController {
                 .lastModifiedDate(Instant.now())
                 .build());
 
-        // Call Feign client to save the category
         return categoryClient.save(category);
     }
 
-    // Update an existing category
+    
     @PutMapping("/pro6/category/{id}")
     public ResponseEntity<?> updateCategory(@PathVariable("id") String id, @RequestBody Category category)
             throws URISyntaxException {

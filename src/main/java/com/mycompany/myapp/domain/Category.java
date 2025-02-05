@@ -55,7 +55,6 @@ public class Category implements Serializable {
     @Field("update_info")
     private UpdateInfo updateInfo;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public String getId() {
         return this.id;
