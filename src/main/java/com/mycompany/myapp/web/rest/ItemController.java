@@ -7,6 +7,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +21,7 @@ import com.mycompany.myapp.domain.UpdateInfo;
 import com.mycompany.myapp.domain.RefType.RefTo;
 import com.mycompany.myapp.feign.CategoryClient;
 import com.mycompany.myapp.feign.ItemClient;
+import com.mycompany.myapp.repository.ItemRepository;
 import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 
@@ -32,6 +34,9 @@ public class ItemController {
     private final ItemClient itemClient;
     private final UserRepository userRepository;
     private final CategoryClient categoryClient;
+    @Autowired
+    private  ItemRepository itemRepository;
+
 
     public ItemController(ItemClient itemClient, UserRepository userRepository, CategoryClient categoryClient) {
         this.userRepository = userRepository;
@@ -122,5 +127,19 @@ public class ItemController {
                 .build());
 
         return itemClient.save(item);
+    }
+    @GetMapping("/pro6/category/{categoryId}/item")
+    public ResponseEntity<?> getallcommnetbyId(@PathVariable("categoryId") String categoryId){
+        List<Item> allCommentsByPostId = itemRepository.findAllItemByCategoryId(new ObjectId(categoryId));
+        return ResponseEntity.ok().body(allCommentsByPostId);
+    }
+
+    @PatchMapping("/pro6/item/{itemid}")
+    public ResponseEntity<Void> patchUpdatePost(@PathVariable String itemid, @RequestBody Item item) throws URISyntaxException {
+
+        // Forward the patch update request to Feign client
+
+        
+        return itemClient.patchUpdate(itemid, item);
     }
 }

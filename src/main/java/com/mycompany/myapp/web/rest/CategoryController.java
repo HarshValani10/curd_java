@@ -93,7 +93,7 @@ public class CategoryController {
     }
 
     @PatchMapping("/pro6/category/{id}")
-    public ResponseEntity<Void> patchUpdatePost(@PathVariable String id, @RequestBody Category category) throws URISyntaxException {
+    public ResponseEntity<Void> patchUpdatePost(@PathVariable("id") String id, @RequestBody Category category) throws URISyntaxException {
         // Forward the patch update request to Feign client
         return categoryClient.patchUpdate(id, category);
     }
